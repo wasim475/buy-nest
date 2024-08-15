@@ -17,8 +17,7 @@ import About from "../../Pages/Navbar/NavItems/About/About";
       children:[
         {
           path:"/",
-          element:
-            <Home/>
+          element:<Home></Home>,
           
         },
         {
