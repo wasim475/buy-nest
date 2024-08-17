@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
 import ViewProduct from "./ViewProduct";
 import { IoSearch } from "react-icons/io5";
-import { FaAngleDown,FaAngleUp } from "react-icons/fa6";
+import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
 
 const Home = () => {
-    const [products, setProducts]= useState([]);
-    
+    const [products, setProducts] = useState([]);
+    const [productsFC, setProductsFC] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalProducts, setTotalProducts] = useState(0);
-    const [productsPerPage] = useState(10); // Set products per page
+    const [productsPerPage] = useState(10);
+    const [sortOrder, setSortOrder] = useState('desc');
 
     const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-    useEffect(()=>{
-        fetch(`https://buy-nest-server.vercel.app/products?page=${currentPage}&limit=${productsPerPage}`)
-        .then((res)=>res.json())
-        .then((data)=>{
-            setProducts(data.products);
-           
-            setTotalProducts(data.totalProducts);
-        })
-    }, [currentPage]);
+    useEffect(() => {
+        fetch(`https://buy-nest-server.vercel.app/products?page=${currentPage}&limit=${productsPerPage}&sortBy=createdAt&sortOrder=${sortOrder}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setProducts(data.products);
+                setProductsFC(data.products);
+                setTotalProducts(data.totalProducts);
+            });
+    }, [currentPage, sortOrder]);
 
     const handleNext = () => {
         if (currentPage < totalPages) {
@@ -34,30 +35,38 @@ const Home = () => {
         }
     };
 
-    const handleSearch = (e)=>{
+    const handleSearch = (e) => {
         e.preventDefault();
         const form = e.target;
         const userInput = form.searchInput.value;
-        const searchData = products.filter((product)=>product.name.toLowerCase().includes(userInput.toLowerCase()));
+        const searchData = products.filter((product) => product.name.toLowerCase().includes(userInput.toLowerCase()));
         setProducts(searchData);
     };
 
-    const handlePHL= ()=>{
+    const handlePHL = () => {
         const sortedByPriceLH = products.sort((a, b) => a.price - b.price);
         setProducts([...sortedByPriceLH]);
     };
-    
-    const handlePLH= ()=>{
+
+    const handlePLH = () => {
         const sortedByPriceHL = products.sort((a, b) => b.price - a.price);
         setProducts([...sortedByPriceHL]);
     };
 
-    const handleCategory= (cat)=>{
-        const catData = products.filter((product)=>product.category===cat.category);
+    const handleNewestFirst = () => {
+        setSortOrder('desc'); 
+    };
+
+    const handleOldestFirst = () => {
+        setSortOrder('asc'); 
+    };
+
+    const handleCategory = (cat) => {
+        const catData = products.filter((product) => product.category === cat.category);
         setProducts(catData);
     };
 
-    const Category = products?.filter((product, index, self) => {
+    const Category = productsFC.filter((product, index, self) => {
         return index === self.findIndex((p) => p.category === product.category);
     });
 
@@ -88,7 +97,9 @@ const Home = () => {
                         <summary className="btn m-1">Sort Products <FaAngleDown/> </summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                             <li onClick={handlePHL} className="cursor-pointer mb-1 hover:text-blue-500">Price(Low-High)</li>
-                            <li onClick={handlePLH} className="cursor-pointer mt-1 hover:text-blue-500">price(High-Low)</li>
+                            <li onClick={handlePLH} className="cursor-pointer mt-1 hover:text-blue-500">Price(High-Low)</li>
+                            <li onClick={handleNewestFirst} className="cursor-pointer mt-1 hover:text-blue-500">Newest First</li>
+                            <li onClick={handleOldestFirst} className="cursor-pointer mt-1 hover:text-blue-500">Oldest First</li>
                         </ul>
                     </details>
                 </div>
@@ -97,7 +108,7 @@ const Home = () => {
                         <summary className="btn m-1">Category <FaAngleDown/> </summary>
                         <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         {
-                            Category?.map((cat,index)=>(
+                            Category.map((cat,index)=>(
 
                             <li key={index} onClick={()=>handleCategory(cat)} className="cursor-pointer mb-1 hover:text-blue-500">{cat.category}</li>
                             ))
@@ -117,7 +128,7 @@ const Home = () => {
           
         <section className="grid lg:grid-cols-4 gap-4">
         {
-                products?.map((product)=>(
+                products.map((product)=>(
                    <ViewProduct 
                    key={product._id}
                     product={product}

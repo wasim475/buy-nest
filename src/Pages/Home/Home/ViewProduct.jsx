@@ -1,7 +1,8 @@
 
 
 const ViewProduct = ({product}) => {
-    const {name, image, description, price, category, ratings, created}=product
+    const {name, image, description, price, category, ratings, createdAt}=product
+    // console.log(created);
     return (
         <>
             <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">
@@ -29,7 +30,7 @@ const ViewProduct = ({product}) => {
             </div>
             <div className="ml-2 text-gray-600 text-sm">{ratings} out of 5</div>
             </div>
-            <div className="text-gray-500 text-xs mt-2">Created on: {created}</div>
+            <div className="text-gray-500 text-xs mt-2">Created on: {createdAt}</div>
         </div>
             </div>
         </>
