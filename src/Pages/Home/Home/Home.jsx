@@ -64,7 +64,7 @@ const Home = () => {
     };
 
     const handleCategory = (cat) => {
-        const catData = products.filter((product) => product.category === cat.category);
+        const catData = products.filter((product) => product.categor === cat.category);
         setProducts(catData);
     };
 
