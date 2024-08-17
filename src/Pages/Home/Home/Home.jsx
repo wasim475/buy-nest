@@ -60,7 +60,7 @@ const Home = () => {
     };
 
     const handleOldestFirst = () => {
-        setSortOrder('asc'); // Ascending order for oldest first
+        setSortOrder('asc'); 
     };
 
     const handleCategory = (cat) => {
