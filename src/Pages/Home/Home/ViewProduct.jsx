@@ -5,7 +5,7 @@ const ViewProduct = ({product}) => {
     return (
         <>
             <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">
-                <img className="w-full h-48 object-cover object-center" src={product.image} alt={product.name} />
+                <img className="w-full h-48 object-cover object-center" src={image} alt={product.name} />
         <div className="p-6">
             <h2 className="text-lg font-bold text-gray-800">{name}</h2>
             <p className="text-gray-600 text-sm mt-1">{description}</p>
