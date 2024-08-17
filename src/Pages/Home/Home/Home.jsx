@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ViewProduct from "./ViewProduct";
 import { IoSearch } from "react-icons/io5";
-import { FaAngleDown, FaAngleUp } from "react-icons/fa6";
+import { FaAngleDown } from "react-icons/fa6";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
