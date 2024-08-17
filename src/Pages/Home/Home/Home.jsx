@@ -56,7 +56,7 @@ const Home = () => {
     };
 
     const handleNewestFirst = () => {
-        setSortOrder('desc'); // Descending order for newest first
+        setSortOrder('desc'); 
     };
 
     const handleOldestFirst = () => {
