@@ -20,10 +20,17 @@ const Home = () => {
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data.products);
-                setProductsFC(data.products);
+                // setProductsFC(data.products);
                 setTotalProducts(data.totalProducts);
             });
     }, [currentPage, sortOrder]);
+
+    useEffect(()=>{
+        fetch("https://buy-nest-server.vercel.app/productsff")
+        .then(res=>res.json())
+        .then(data=>setProductsFC(data))
+    },[])
+    
 
     const handleNext = () => {
         if (currentPage < totalPages) {
@@ -41,7 +48,7 @@ const Home = () => {
         e.preventDefault();
         const form = e.target;
         const userInput = form.searchInput.value;
-        const searchData = products.filter((product) => product.name.toLowerCase().includes(userInput.toLowerCase()));
+        const searchData = productsFC.filter((product) => product.name.toLowerCase().includes(userInput.toLowerCase()));
         setProducts(searchData);
     };
 
@@ -64,20 +71,20 @@ const Home = () => {
     };
 
     const handleCategory = (cat) => {
-        const catData = products.filter((product) => product.category === cat.category);
+        const catData = productsFC.filter((product) => product.category === cat.category);
         setProducts(catData);
     };
 
     const handlePriceRange = (e) => {
         e.preventDefault();
-        const filteredProducts = productsFC.filter(product => {
+        const filteredProducts = products.filter(product => {
             const price = product.price;
             return price >= (minPrice || 0) && price <= (maxPrice || Infinity);
         });
         setProducts(filteredProducts);
     };
 
-    const Category = productsFC.filter((product, index, self) => {
+    const Category = productsFC?.filter((product, index, self) => {
         return index === self.findIndex((p) => p.category === product.category);
     });
 
@@ -119,7 +126,7 @@ const Home = () => {
                             <summary className="btn m-1">Category <FaAngleDown /></summary>
                             <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                                 {
-                                    Category.map((cat, index) => (
+                                    Category?.map((cat, index) => (
                                         <li key={index} onClick={() => handleCategory(cat)} className="cursor-pointer mb-1 hover:text-blue-500">{cat.category}</li>
                                     ))
                                 }
@@ -165,6 +172,7 @@ const Home = () => {
                         <ViewProduct
                             key={product._id}
                             product={product}
+                            productsFC={productsFC}
                         ></ViewProduct>
                     ))
                 }

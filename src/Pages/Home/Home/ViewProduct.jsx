@@ -1,8 +1,9 @@
 
 
-const ViewProduct = ({product}) => {
-    const {name, image, description, price, category, ratings, createdAt}=product
-    // console.log(created);
+const ViewProduct = ({product,productsFC}) => {
+    const {name, image, description, price, ratings, createdAt}=product
+    const {category}=productsFC
+    console.log(productsFC);
     return (
         <>
             <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">
