@@ -1,9 +1,8 @@
 
 
-const ViewProduct = ({product,productsFC}) => {
-    const {name, image, description, price, ratings, createdAt}=product
-    const {category}=productsFC
-    console.log(productsFC);
+const ViewProduct = ({product}) => {
+    const {name, image, description, price, ratings,category, createdAt}=product
+  
     return (
         <>
             <div className="max-w-sm bg-white shadow-lg rounded-lg overflow-hidden">
@@ -13,7 +12,7 @@ const ViewProduct = ({product,productsFC}) => {
             <p className="text-gray-600 text-sm mt-1">{description}</p>
             <div className="flex items-center justify-between mt-4">
             <div className="text-lg font-semibold text-gray-700">${price}</div>
-            <div className="text-sm text-gray-600">{category}</div>
+            <div className="text-sm text-red-600 font-semibold">{category}</div>
             </div>
             <div className="flex items-center mt-4">
             <div className="flex items-center">

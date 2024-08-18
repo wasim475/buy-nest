@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ViewProduct from "./ViewProduct";
 import { IoSearch } from "react-icons/io5";
 import { FaAngleDown } from "react-icons/fa6";
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const [products, setProducts] = useState([]);
@@ -50,6 +51,9 @@ const Home = () => {
         const userInput = form.searchInput.value;
         const searchData = productsFC.filter((product) => product.name.toLowerCase().includes(userInput.toLowerCase()));
         setProducts(searchData);
+        if(searchData.length<1){
+            toast("No search found")
+        }
     };
 
     const handlePHL = () => {
@@ -77,11 +81,15 @@ const Home = () => {
 
     const handlePriceRange = (e) => {
         e.preventDefault();
-        const filteredProducts = products.filter(product => {
+        const filteredProducts = productsFC.filter(product => {
             const price = product.price;
             return price >= (minPrice || 0) && price <= (maxPrice || Infinity);
         });
+        
         setProducts(filteredProducts);
+        if(filteredProducts.length<1){
+            toast("NO product found.")
+        }
     };
 
     const Category = productsFC?.filter((product, index, self) => {
@@ -109,7 +117,7 @@ const Home = () => {
                         </form>
                     </div>
                 </article>
-                <article className="flex">
+                <article className="lg:flex">
                     <div>
                         <details className="dropdown">
                             <summary className="btn m-1">Sort Products <FaAngleDown /></summary>
@@ -166,7 +174,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="grid lg:grid-cols-4 gap-4">
+            <section className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {
                     products.map((product) => (
                         <ViewProduct
